@@ -87,7 +87,9 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 		a.AddError(fmt.Errorf("Failed to get zone state for '%s': %w\n", z.Name, err))
 		return
 	}
-
+	if state.Setting.Type == "HOT_WATER" {
+		return
+	}
 	tags := make(map[string]string)
 	tags["home"] = h.Name
 	tags["zone"] = z.Name
