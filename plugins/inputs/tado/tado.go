@@ -93,13 +93,12 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 	tags := make(map[string]string)
 	tags["home"] = h.Name
 	tags["zone"] = z.Name
-	tags["power"] = state.Setting.Power
+	tags["power"] = string(state.Setting.Power)
 	tags["tadoMode"] = state.TadoMode
 	fields := make(map[string]interface{})
 	fields["setting"] = state.Setting.Temperature.Celsius
 	fields["temperature"] = state.SensorDataPoints.InsideTemperature.Celsius
 	fields["humidity"] = state.SensorDataPoints.Humidity.Percentage
-	a.AddInfo(fmt.Errorf("Power for zone '%s': %s", z.Name, state.Setting.Power))
 	a.AddCounter("tado", fields, tags)
 }
 
