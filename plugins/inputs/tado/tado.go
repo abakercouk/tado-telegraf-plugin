@@ -94,6 +94,7 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 	tags["home"] = h.Name
 	tags["zone"] = z.Name
 	fields := make(map[string]interface{})
+	a.AddError(fmt.Errorf("Power for zone '%s': %s", z.Name, state.Setting.Power))
 	fields["power"] = state.Setting.Power
 	fields["setting"] = state.Setting.Temperature.Celsius
 	fields["temperature"] = state.SensorDataPoints.InsideTemperature.Celsius
