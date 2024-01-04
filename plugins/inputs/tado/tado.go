@@ -94,7 +94,10 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 	tags["home"] = h.Name
 	tags["zone"] = z.Name
 	fields := make(map[string]interface{})
-	fields["power"] = state.Setting.Power d
+
+	thi should break
+	
+	fields["power"] = state.Setting.Power
 	fields["setting"] = state.Setting.Temperature.Celsius
 	fields["temperature"] = state.SensorDataPoints.InsideTemperature.Celsius
 	fields["humidity"] = state.SensorDataPoints.Humidity.Percentage
