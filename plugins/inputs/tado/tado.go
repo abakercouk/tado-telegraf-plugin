@@ -90,36 +90,31 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 	if state.Setting.Type == "HOT_WATER" {
 		return
 	}
+
+	var powerValue = 0
+	var tadoModeValue = 0
+
+	if string(state.Setting.Power) == "ON" {
+		powerValue = 1
+	}
+
+	if state.TadoMode == "HOME" {
+		tadoModeValue = 1
+	}
+	
 	tags := make(map[string]string)
 	tags["home"] = h.Name
 	tags["zone"] = z.Name
 	tags["tadoMode"] = state.TadoMode
 	tags["power"] = string(state.Setting.Power)
+
 	fields := make(map[string]interface{})
 	fields["setting"] = state.Setting.Temperature.Celsius
 	fields["temperature"] = state.SensorDataPoints.InsideTemperature.Celsius
 	fields["humidity"] = state.SensorDataPoints.Humidity.Percentage
-
-	fields["powerValue"] = 1
-
+	fields["powerValue"] = powerValue
+	fields["tadoModeValue"] = tadoModeValue
 	
-/*
-	if string(state.Setting.Power) == "ON" {
-		a.AddError(fmt.Errorf("Setting power field = 1"))
-		fields["power"] = 1
-	} else {
-		a.AddError(fmt.Errorf("Setting power field = 0"))
-		fields["power"] = 0
-	}
-
-	if state.TadoMode == "HOME" {
-		a.AddError(fmt.Errorf("Setting tadoMode field = 1"))
-		fields["tadoMode"] = 1
-	} else {
-		a.AddError(fmt.Errorf("Setting tadoMode field = 0"))
-		fields["tadoMode"] = 0
-	}
-*/
 	a.AddCounter("tado", fields, tags)
 }
 
