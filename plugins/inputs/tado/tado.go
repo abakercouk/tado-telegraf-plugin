@@ -91,13 +91,7 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 		return
 	}
 
-	var powerValue = 0
 	var tadoModeValue = 0
-
-	if string(state.Setting.Power) == "ON" {
-		powerValue = 1
-	}
-
 	if state.TadoMode == "HOME" {
 		tadoModeValue = 1
 	}
@@ -112,7 +106,7 @@ func (plugin *Tado) dumpZone(ctx context.Context, u *gotado.User, h *gotado.Home
 	fields["setting"] = state.Setting.Temperature.Celsius
 	fields["temperature"] = state.SensorDataPoints.InsideTemperature.Celsius
 	fields["humidity"] = state.SensorDataPoints.Humidity.Percentage
-	fields["powerValue"] = powerValue
+	fields["heatingPower"] = state.ActivityDataPoints.HeatingPower.Percentage
 	fields["tadoModeValue"] = tadoModeValue
 	
 	a.AddCounter("tado", fields, tags)
